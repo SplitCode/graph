@@ -1,7 +1,7 @@
 export interface ChartData {
   title: string;
   data: ChartPoint[];
-  presets: any;
+  presets: unknown;
 }
 
 export interface ChartPoint {

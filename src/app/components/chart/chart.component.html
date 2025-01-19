@@ -31,7 +31,10 @@
     <div class="row">
       <mat-form-field class="form-field">
         <mat-label>Ось X</mat-label>
-        <mat-select [(ngModel)]="selectedXAxis" (change)="onSettingsChange()">
+        <mat-select
+          [(ngModel)]="selectedXAxis"
+          (selectionChange)="onSettingsChange()"
+        >
           <mat-option *ngFor="let key of keys" [value]="key">{{
             key
           }}</mat-option>
@@ -40,7 +43,10 @@
 
       <mat-form-field class="form-field">
         <mat-label>Ось Y</mat-label>
-        <mat-select [(ngModel)]="selectedYAxis">
+        <mat-select
+          [(ngModel)]="selectedYAxis"
+          (selectionChange)="onSettingsChange()"
+        >
           <mat-option *ngFor="let key of keys" [value]="key">{{
             key
           }}</mat-option>

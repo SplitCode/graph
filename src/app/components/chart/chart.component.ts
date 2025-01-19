@@ -41,7 +41,7 @@ export class ChartComponent implements OnInit {
 
   chartTitle: string = 'График данных';
   lineColor: string = '#ff0000';
-  pointSymbol: ChartSymbols = ChartSymbols.Circle;
+  pointSymbol: ChartSymbols = ChartSymbols.None;
   selectedXAxis: string = '';
   selectedYAxis: string = '';
   keys: string[] = [];
@@ -74,6 +74,7 @@ export class ChartComponent implements OnInit {
   private initializeChart(): void {
     if (this.chartElement) {
       this.chartInstance = echarts.init(this.chartElement.nativeElement);
+
       this.setChartOptions();
     }
   }
@@ -95,22 +96,29 @@ export class ChartComponent implements OnInit {
         },
       },
       xAxis: {
+        // type: 'category',
         type: 'value',
         name: this.selectedXAxis,
+        // data: xData,
+        scale: true,
       },
       yAxis: {
         type: 'value',
-        min: 3,
         name: this.selectedYAxis,
+        scale: true,
       },
       series: [
         {
           type: 'line',
+          smooth: true,
           data: xData.map((x, i) => [x, yData[i]]),
+          // data: yData,
           symbol: this.pointSymbol,
+          symbolSize: 8,
           color: this.lineColor,
           lineStyle: {
             color: this.lineColor,
+            width: 4,
           },
         },
       ],

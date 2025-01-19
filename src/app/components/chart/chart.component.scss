@@ -1,9 +1,6 @@
 mat-card {
   padding: 20px;
-  border-radius: 8px;
   max-width: 800px;
-  background-color: var(--background-color);
-  box-shadow: var(--box-shadow);
   margin: 0 auto;
 
   .chart-title {
@@ -20,7 +17,6 @@ mat-card {
   .form-settings {
     display: flex;
     flex-direction: column;
-    // gap: 20px;
 
     .row {
       display: flex;
@@ -28,9 +24,6 @@ mat-card {
       gap: 20px;
 
       .form-field {
-        // flex: 1;
-        min-width: 200px;
-
         mat-form-field {
           width: 100%;
         }
