@@ -1,0 +1,40 @@
+mat-card {
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 800px;
+  background-color: var(--background-color);
+  box-shadow: var(--box-shadow);
+  margin: 0 auto;
+
+  .chart-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .settings-title {
+    margin-bottom: 20px;
+    font-size: 0.8rem;
+    color: var(--settings-color);
+  }
+
+  .form-settings {
+    display: flex;
+    flex-direction: column;
+    // gap: 20px;
+
+    .row {
+      display: flex;
+      justify-content: left;
+      gap: 20px;
+
+      .form-field {
+        // flex: 1;
+        min-width: 200px;
+
+        mat-form-field {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

@@ -1,2 +1,53 @@
-<p>chart works!</p>
-<div #chart style="width: 100%; height: 400px"></div>
+<mat-card>
+  <h1 class="chart-title">{{ chartTitle }}</h1>
+
+  <h2 class="settings-title">Настройки отображения</h2>
+
+  <div class="form-settings">
+    <div class="row">
+      <mat-form-field class="form-field">
+        <mat-label>Цвет графика</mat-label>
+        <input
+          matInput
+          type="color"
+          [(ngModel)]="lineColor"
+          (change)="onSettingsChange()"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Символ точек</mat-label>
+        <mat-select
+          [(ngModel)]="pointSymbol"
+          (selectionChange)="onSettingsChange()"
+        >
+          <mat-option *ngFor="let symbol of availableSymbols" [value]="symbol">
+            {{ symbol }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field class="form-field">
+        <mat-label>Ось X</mat-label>
+        <mat-select [(ngModel)]="selectedXAxis" (change)="onSettingsChange()">
+          <mat-option *ngFor="let key of keys" [value]="key">{{
+            key
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Ось Y</mat-label>
+        <mat-select [(ngModel)]="selectedYAxis">
+          <mat-option *ngFor="let key of keys" [value]="key">{{
+            key
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div #chart style="width: 100%; height: 400px"></div>
+</mat-card>

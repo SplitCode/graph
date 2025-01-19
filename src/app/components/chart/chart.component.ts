@@ -1,64 +1,127 @@
 import {
   Component,
   OnInit,
-  AfterViewInit,
   ElementRef,
   ViewChild,
+  inject,
+  HostListener,
 } from '@angular/core';
 import * as echarts from 'echarts';
+import { DataService } from '../../services/data.service';
+import { CallbackDataParams } from 'echarts/types/dist/shared';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { FormsModule } from '@angular/forms';
+import { ChartData, ChartPoint } from '../../models/chart-data.interface';
+import { ChartSymbols } from '../../models/chart-symbols.enum';
 
 @Component({
   selector: 'app-chart',
-  imports: [],
+  standalone: true,
+  imports: [
+    MatCardModule,
+    MatSelectModule,
+    MatInputModule,
+    CommonModule,
+    MatFormFieldModule,
+    FormsModule,
+  ],
   templateUrl: './chart.component.html',
   styleUrl: './chart.component.scss',
 })
-export class ChartComponent implements OnInit, AfterViewInit {
-  @ViewChild('chart') chartElement: ElementRef | undefined;
+export class ChartComponent implements OnInit {
+  @ViewChild('chart', { static: true }) chartElement: ElementRef | undefined;
 
-  myChart: any;
+  private readonly dataService = inject(DataService);
 
-  ngOnInit() {}
+  availableSymbols = Object.values(ChartSymbols);
 
-  ngAfterViewInit() {
-    this.initializeChart();
+  chartTitle: string = 'График данных';
+  lineColor: string = '#ff0000';
+  pointSymbol: ChartSymbols = ChartSymbols.Circle;
+  selectedXAxis: string = '';
+  selectedYAxis: string = '';
+  keys: string[] = [];
+  chartData: ChartPoint[] = [];
+  chartInstance!: echarts.ECharts;
+
+  ngOnInit(): void {
+    this.dataService.getChartData().subscribe((response: ChartData) => {
+      this.chartTitle = response.title || this.chartTitle;
+      this.chartData = response.data;
+      this.keys = Object.keys(response.data[0]);
+      this.selectedXAxis = this.keys[0];
+      this.selectedYAxis = this.keys[1];
+
+      this.initializeChart();
+    });
   }
 
-  initializeChart() {
+  onSettingsChange(): void {
+    this.setChartOptions();
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    if (this.chartInstance) {
+      this.chartInstance.resize();
+    }
+  }
+
+  private initializeChart(): void {
     if (this.chartElement) {
-      this.myChart = echarts.init(this.chartElement.nativeElement);
+      this.chartInstance = echarts.init(this.chartElement.nativeElement);
       this.setChartOptions();
     }
   }
 
-  setChartOptions() {
+  private setChartOptions(): void {
+    if (!this.chartInstance) return;
+
+    const xData = this.chartData.map((point) => point[this.selectedXAxis]);
+    const yData = this.chartData.map((point) => point[this.selectedYAxis]);
+
     const options = {
-      title: {
-        text: 'Sample Chart', // сюда добавить данные из json
+      tooltip: {
+        trigger: 'axis',
+        formatter: (params: CallbackDataParams[]) => {
+          const index = params[0].dataIndex;
+          return `Точка ${index + 1}<br/>
+                  ${this.selectedXAxis}: ${xData[index]}<br/>
+                  ${this.selectedYAxis}: ${yData[index]}`;
+        },
       },
-      tooltip: {},
       xAxis: {
-        type: 'category',
-        data: ['A', 'B', 'C', 'D', 'E'], // сюда добавить данные из json
+        type: 'value',
+        name: this.selectedXAxis,
       },
       yAxis: {
-        type: 'value', // сюда добавить данные из json
+        type: 'value',
+        min: 3,
+        name: this.selectedYAxis,
       },
       series: [
         {
-          name: 'y',
           type: 'line',
-          data: [10, 20, 30, 40, 50],
+          data: xData.map((x, i) => [x, yData[i]]),
+          symbol: this.pointSymbol,
+          color: this.lineColor,
+          lineStyle: {
+            color: this.lineColor,
+          },
         },
       ],
     };
 
-    this.myChart.setOption(options);
+    this.chartInstance.setOption(options);
   }
 
   ngOnDestroy() {
-    if (this.myChart) {
-      this.myChart.dispose();
+    if (this.chartInstance) {
+      this.chartInstance.dispose();
     }
   }
 }
