@@ -44,17 +44,17 @@ export class ChartComponent implements OnInit {
   pointSymbol: ChartSymbols = ChartSymbols.None;
   selectedXAxis: string = '';
   selectedYAxis: string = '';
-  keys: string[] = [];
+  dataKeys: string[] = [];
   chartData: ChartPoint[] = [];
   chartInstance!: echarts.ECharts;
 
   ngOnInit(): void {
     this.dataService.getChartData().subscribe((response: ChartData) => {
-      this.chartTitle = response.title || this.chartTitle;
       this.chartData = response.data;
-      this.keys = Object.keys(response.data[0]);
-      this.selectedXAxis = this.keys[0];
-      this.selectedYAxis = this.keys[1];
+      this.chartTitle = response.title || this.chartTitle;
+      this.dataKeys = Object.keys(response.data[0]);
+      this.selectedXAxis = this.dataKeys[0];
+      this.selectedYAxis = this.dataKeys[1];
 
       this.initializeChart();
     });
@@ -66,9 +66,7 @@ export class ChartComponent implements OnInit {
 
   @HostListener('window:resize')
   onResize(): void {
-    if (this.chartInstance) {
-      this.chartInstance.resize();
-    }
+    this.chartInstance?.resize();
   }
 
   private initializeChart(): void {
@@ -96,10 +94,8 @@ export class ChartComponent implements OnInit {
         },
       },
       xAxis: {
-        // type: 'category',
         type: 'value',
         name: this.selectedXAxis,
-        // data: xData,
         scale: true,
       },
       yAxis: {
@@ -111,8 +107,11 @@ export class ChartComponent implements OnInit {
         {
           type: 'line',
           smooth: true,
-          data: xData.map((x, i) => [x, yData[i]]),
-          // data: yData,
+          data: this.chartData.map((item) => [
+            item[this.selectedXAxis],
+            item[this.selectedYAxis],
+          ]),
+
           symbol: this.pointSymbol,
           symbolSize: 8,
           color: this.lineColor,

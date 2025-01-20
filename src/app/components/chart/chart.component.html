@@ -35,7 +35,7 @@
           [(ngModel)]="selectedXAxis"
           (selectionChange)="onSettingsChange()"
         >
-          <mat-option *ngFor="let key of keys" [value]="key">{{
+          <mat-option *ngFor="let key of dataKeys" [value]="key">{{
             key
           }}</mat-option>
         </mat-select>
@@ -47,7 +47,7 @@
           [(ngModel)]="selectedYAxis"
           (selectionChange)="onSettingsChange()"
         >
-          <mat-option *ngFor="let key of keys" [value]="key">{{
+          <mat-option *ngFor="let key of dataKeys" [value]="key">{{
             key
           }}</mat-option>
         </mat-select>
