@@ -41,7 +41,7 @@ export class ChartComponent implements OnInit {
 
   chartTitle: string = 'График данных';
   lineColor: string = '#ff0000';
-  pointSymbol: ChartSymbols = ChartSymbols.None;
+  pointSymbol: ChartSymbols = ChartSymbols.Circle;
   selectedXAxis: string = '';
   selectedYAxis: string = '';
   dataKeys: string[] = [];
@@ -49,6 +49,8 @@ export class ChartComponent implements OnInit {
   chartInstance!: echarts.ECharts;
 
   ngOnInit(): void {
+    this.loadSettings();
+
     this.dataService.getChartData().subscribe((response: ChartData) => {
       this.chartData = response.data;
       this.chartTitle = response.title || this.chartTitle;
@@ -61,7 +63,28 @@ export class ChartComponent implements OnInit {
   }
 
   onSettingsChange(): void {
+    this.saveSettings();
     this.setChartOptions();
+  }
+
+  private saveSettings(): void {
+    localStorage.setItem(
+      'chartSettings',
+      JSON.stringify({
+        lineColor: this.lineColor,
+        pointSymbol: this.pointSymbol,
+      }),
+    );
+  }
+
+  private loadSettings(): void {
+    const settings = localStorage.getItem('chartSettings');
+
+    if (settings) {
+      const parsedSettings = JSON.parse(settings);
+      this.lineColor = parsedSettings.lineColor;
+      this.pointSymbol = parsedSettings.pointSymbol;
+    }
   }
 
   @HostListener('window:resize')
@@ -105,7 +128,7 @@ export class ChartComponent implements OnInit {
       },
       series: [
         {
-          type: 'line',
+          type: 'scatter',
           smooth: true,
           data: this.chartData.map((item) => [
             item[this.selectedXAxis],
