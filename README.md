@@ -28,9 +28,10 @@ This project is a small Angular application for creating and configuring graph v
 ## Getting Started
 
 ```
-git clone git@github.com:SplitCode/graph.git
+git clone https://github.com/SplitCode/graph.git
+cd graph
 npm install
-ng serve
+npm start
 ```
 
 Приложение будет доступно по адресу http://localhost:4200 (или на другом порту, если указан в настройках).
