@@ -2,6 +2,8 @@
 
 Interactive scatter plot configuration tool built with Angular and Apache ECharts. Renders server-provided data as a scatter plot and lets users reconfigure its display in real time, including which data variables map to each axis.
 
+<img width="835" height="718" alt="Снимок экрана 2026-06-21 в 20 54 28" src="https://github.com/user-attachments/assets/42d313b1-0f06-4c8f-80e6-8b3c0f986e17" />
+
 ## ✨ Features
 
 - **Dynamic axis mapping** — variable names are read directly from the server response (`res.json`), allowing users to choose which variables are displayed on the X and Y axes
@@ -48,7 +50,3 @@ npm start
 ```
 
 The application will be available at [http://localhost:4200](http://localhost:4200).
-
-## 📷 Preview
-
-<img width="835" height="718" alt="Снимок экрана 2026-06-21 в 20 54 28" src="https://github.com/user-attachments/assets/42d313b1-0f06-4c8f-80e6-8b3c0f986e17" />
