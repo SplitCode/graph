@@ -1,37 +1,54 @@
-# Graph Visualization Tool
+# 📊 Graph Builder
 
-Interactive graph visualization tool built with Angular and Apache ECharts.
+Interactive scatter plot configuration tool built with Angular and Apache ECharts. Renders server-provided data as a scatter plot and lets users reconfigure its display in real time, including which data variables map to each axis.
 
-## Overview
+## ✨ Features
 
-This project is a small Angular application for creating and configuring graph visualizations. It allows users to define graph data, adjust display settings, and preview the result in an interactive chart.
+- **Dynamic axis mapping** — variable names are read directly from the server response (`res.json`), allowing users to choose which variables are displayed on the X and Y axes
+- **Chart title from server data** — the chart title is generated from the API response rather than hardcoded
+- **Color customization** — customize point colors through a color picker
+- **Point symbol selection** — choose from multiple predefined marker shapes
+- **Persisted display settings** — selected color and point symbol are stored in local storage and restored on page reload
+- **Responsive chart resizing** — the chart automatically resizes when the browser window changes
+- **Built with Apache ECharts** — a powerful charting library for interactive data visualization
 
-## Features
+## 🏗 Architecture
 
-- Interactive graph rendering
-- Configurable nodes and edges
-- Graph display customization
-- Angular-based UI
-- Apache ECharts integration
+The application loads chart metadata and data points via an HTTP service and generates scatter plot configuration dynamically based on the available variables.
 
-## Tech Stack
+Users can select which variables are displayed on the X and Y axes, allowing the same dataset to be explored from different perspectives.
 
-- Angular
-- TypeScript
-- Apache ECharts
-- SCSS
+Visualization settings are persisted in local storage and restored between sessions.
 
-## Screenshots
+## 🛠 Tech Stack
 
-<img width="853" alt="Снимок экрана 2025-01-20 в 12 55 32" src="https://github.com/user-attachments/assets/755cd5d6-2ebb-42ce-8f40-83c791545d57" />
+| Layer | Technologies |
+|---|---|
+| Language | TypeScript |
+| Framework | Angular (Standalone Components) |
+| Charting | Apache ECharts |
+| Forms | Angular Template-Driven Forms (ngModel) |
+| UI Components | Angular Material |
+| Styles | SCSS |
 
-## Getting Started
+## 🚀 Getting Started
 
-```
-git clone https://github.com/SplitCode/graph.git
+### Prerequisites
+
+- Node.js 18+
+- npm 9+
+
+### Installation & Run
+
+```bash
+git clone git@github.com:SplitCode/graph.git
 cd graph
 npm install
 npm start
 ```
 
-Приложение будет доступно по адресу http://localhost:4200 (или на другом порту, если указан в настройках).
+The application will be available at [http://localhost:4200](http://localhost:4200).
+
+## 📷 Preview
+
+<img width="835" height="718" alt="Снимок экрана 2026-06-21 в 20 54 28" src="https://github.com/user-attachments/assets/42d313b1-0f06-4c8f-80e6-8b3c0f986e17" />
